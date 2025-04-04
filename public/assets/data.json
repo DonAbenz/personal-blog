@@ -3,40 +3,40 @@
         {
             "id": 1,
             "username": "admin",
-            "password": "$2y$10$Ip5ojJyxp3g6FbGk7vVbS./i1GFjJ9gLYxt4mW18Bu06bxA6A6Pca",
+            "password": "$2y$10$Ip5ojJyxp3g6FbGk7vVbS.\/i1GFjJ9gLYxt4mW18Bu06bxA6A6Pca",
             "role": "admin"
         },
         {
             "id": 2,
             "username": "user",
-            "password": "$2y$10$Ip5ojJyxp3g6FbGk7vVbS./i1GFjJ9gLYxt4mW18Bu06bxA6A6Pca",
+            "password": "$2y$10$Ip5ojJyxp3g6FbGk7vVbS.\/i1GFjJ9gLYxt4mW18Bu06bxA6A6Pca",
             "role": "guest"
         }
     ],
-    "articles": [
-        {
-            "id": 1,
-            "title": "First Article 1",
-            "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum qui maiores natus illo nobis quam quae fugit, assumenda deserunt aperiam dignissimos error veritatis officia ipsum eveniet optio quis, libero quisquam?\r\n",
-            "date": "2025-04-10"
-        },
-        {
+    "articles": {
+        "1": {
             "id": 2,
             "title": "Fourth Article",
-            "content": "lorem ipsum",
-            "date": "2025-04-04"
+            "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora animi, non quo ipsam id voluptates ullam sapiente eaque magni odit atque eveniet dolorum optio et enim labore, cum, placeat sed.\r\n",
+            "date": "2025-04-05"
         },
-        {
+        "2": {
             "id": 3,
             "title": "Fifth Article",
             "content": "loram iasdfasfd",
             "date": "2025-04-03"
         },
-        {
+        "3": {
             "id": 4,
             "title": "Sixth Article",
             "content": "lorem ipsum noted ",
             "date": "2025-04-01"
+        },
+        "5": {
+            "id": 6,
+            "title": "Eight Article",
+            "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora animi, non quo ipsam id voluptates ullam sapiente eaque magni odit atque eveniet dolorum optio et enim labore, cum, placeat sed.\r\n",
+            "date": "2025-04-02"
         }
-    ]
+    }
 }

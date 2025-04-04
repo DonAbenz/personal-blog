@@ -8,13 +8,14 @@ use App\Core\TwigService;
 class HomeController
 {
    private $twig;
+   private $filePath = __DIR__ . '/../../../../public/assets/data.json';
 
    public function __construct(protected Router $router)
    {
       $this->twig = TwigService::getTwig();
    }
 
-   public function index()
+   private function checkAuth()
    {
       if (!isset($_SESSION['user_id'])) {
          redirect('/');
@@ -23,8 +24,26 @@ class HomeController
       if ($_SESSION['role'] !== 'guest') {
          redirect('/admin');
       }
+   }
+   
+   private function loadData()
+   {
+      $data = json_decode(file_get_contents($this->filePath), true);
+
+      if (empty($data)) {
+         $data = [
+            'articles' => [],
+         ];
+      }
+
+      return $data;
+   }
+
+   public function index()
+   {
+      $this->checkAuth();
       
-      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+      $data = $this->loadData();
 
       $articles = $data['articles'];
 
@@ -42,17 +61,11 @@ class HomeController
 
    public function showArticle()
    {
-      if (!isset($_SESSION['user_id'])) {
-         redirect('/');
-      }
-
-      if ($_SESSION['role'] !== 'guest') {
-         redirect('/admin');
-      }
+      $this->checkAuth();
 
       $parameters = $this->router->current()->parameters();
 
-      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+      $data = $this->loadData();
       
       $articles = array_filter($data['articles'], function ($article) use ($parameters) {
          return $article['id'] == $parameters['id'];

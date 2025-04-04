@@ -8,13 +8,14 @@ use App\Core\TwigService;
 class AdminController
 {
    private $twig;
+   private $filePath = __DIR__ . '/../../../../public/assets/data.json';
 
    public function __construct(protected Router $router)
    {
       $this->twig = TwigService::getTwig();
    }
 
-   public function index()
+   private function checkAuth()
    {
       if (!isset($_SESSION['user_id'])) {
          redirect('/');
@@ -23,8 +24,31 @@ class AdminController
       if ($_SESSION['role'] !== 'admin') {
          redirect('/home');
       }
+   }
 
-      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+   private function loadData()
+   {
+      $data = json_decode(file_get_contents($this->filePath), true);
+
+      if (empty($data)) {
+         $data = [
+            'articles' => [],
+         ];
+      }
+
+      return $data;
+   }
+   
+   private function saveFile($data)
+   {
+      file_put_contents($this->filePath, json_encode($data, JSON_PRETTY_PRINT));
+   }
+
+   public function index()
+   {
+      $this->checkAuth();
+
+      $data = $this->loadData();
 
       $articles = $data['articles'];
 
@@ -45,13 +69,7 @@ class AdminController
 
    public function createArticle()
    {
-      if (!isset($_SESSION['user_id'])) {
-         redirect('/');
-      }
-
-      if ($_SESSION['role'] !== 'admin') {
-         redirect('/home');
-      }
+      $this->checkAuth();
 
       echo $this->twig->render('create.twig', [
          'loggedInUser' => $_SESSION['user_id'],
@@ -63,15 +81,9 @@ class AdminController
 
    public function storeArticle()
    {
-      if (!isset($_SESSION['user_id'])) {
-         redirect('/');
-      }
+      $this->checkAuth();
 
-      if ($_SESSION['role'] !== 'admin') {
-         redirect('/home');
-      }
-
-      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+      $data = $this->loadData();
 
       $id = count($data['articles']) > 0 ? end($data['articles'])['id'] + 1 : 1;
 
@@ -84,7 +96,7 @@ class AdminController
 
       $data['articles'][] = $article;
 
-      file_put_contents(__DIR__ . '/../../../../public/assets/data.json', json_encode($data, JSON_PRETTY_PRINT));
+      $this->saveFile($data);
 
       //redirect back to admin page with success message
       $_SESSION['success'] = 'Article created successfully!';
@@ -94,17 +106,11 @@ class AdminController
 
    public function editArticle()
    {
-      if (!isset($_SESSION['user_id'])) {
-         redirect('/');
-      }
-
-      if ($_SESSION['role'] !== 'admin') {
-         redirect('/home');
-      }
+      $this->checkAuth();
 
       $parameters = $this->router->current()->parameters();
 
-      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+      $data = $this->loadData();
 
       $articles = array_filter($data['articles'], function ($article) use ($parameters) {
          return $article['id'] == $parameters['id'];
@@ -123,17 +129,11 @@ class AdminController
 
    public function updateArticle()
    {
-      if (!isset($_SESSION['user_id'])) {
-         redirect('/');
-      }
-
-      if ($_SESSION['role'] !== 'admin') {
-         redirect('/home');
-      }
+      $this->checkAuth();
 
       $parameters = $this->router->current()->parameters();
 
-      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+      $data = $this->loadData();
 
       $articles = array_filter($data['articles'], function ($article) use ($parameters) {
          return $article['id'] == $parameters['id'];
@@ -153,7 +153,7 @@ class AdminController
          }
       }
 
-      file_put_contents(__DIR__ . '/../../../../public/assets/data.json', json_encode($data, JSON_PRETTY_PRINT));
+      $this->saveFile($data);
 
       //redirect back to edit page with success message
       $_SESSION['success'] = 'Article updated successfully!';
@@ -163,17 +163,11 @@ class AdminController
 
    public function destroyArticle()
    {
-      if (!isset($_SESSION['user_id'])) {
-         redirect('/');
-      }
-
-      if ($_SESSION['role'] !== 'admin') {
-         redirect('/home');
-      }
+      $this->checkAuth();
 
       $parameters = $this->router->current()->parameters();
 
-      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+      $data = $this->loadData();
 
       $articles = array_filter($data['articles'], function ($article) use ($parameters) {
          return $article['id'] == $parameters['id'];
@@ -187,7 +181,7 @@ class AdminController
          }
       }
 
-      file_put_contents(__DIR__ . '/../../../../public/assets/data.json', json_encode($data, JSON_PRETTY_PRINT));
+      $this->saveFile($data);
 
       //redirect back to admin page with success message
       $_SESSION['success'] = 'Article deleted successfully!';
