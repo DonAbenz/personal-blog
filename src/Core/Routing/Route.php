@@ -16,10 +16,30 @@ class Route
       $this->handler = $handler;
    }
 
+   public function dispatch(): mixed
+   {
+      if (is_array($this->handler)) {
+         [$class, $method] = $this->handler;
+
+         if (is_string($class)) {
+            return (new $class)->{$method}();
+         }
+
+         return $class->{$method}();
+      }
+
+      return call_user_func($this->handler);
+   }
+
+
    public function matches(string $method, string $path): bool
    {
-      // Check for a literal match
-      if ($this->method === $method && $this->path === $path) {
+      if ($this->method !== $method) {
+         return false;
+      }
+
+      // First, try exact match
+      if ($this->path === $path) {
          return true;
       }
 
@@ -34,5 +54,10 @@ class Route
       }
 
       return false;
+   }
+
+   public function getPath(): string
+   {
+      return $this->path;
    }
 }

@@ -1,0 +1,32 @@
+{
+   "users": [
+       {
+           "id": 1,
+           "username": "admin",
+           "password": "$2y$10$FzkQYqsmcxp/xOVmHyJPiestjehzyZ2P.Kyup2QL19amo9JKjolPK",
+           "role": "admin"
+       },
+       {
+           "id": 2,
+           "username": "user1",
+           "password": "$2y$10$Msu3ElkF6mDCSo5kud3FA.Pn1MEeL4gv90RSgOsWXP4q4.DsWEDsK",
+           "role": "guest"
+       }
+   ],
+   "articles": [
+       {
+           "id": 1,
+           "title": "First Article",
+           "content": "This is the content of the first article.",
+           "date": "2025-04-04",
+           "author_id": 1
+       },
+       {
+           "id": 2,
+           "title": "Second Article",
+           "content": "This is the content of the second article.",
+           "date": "2025-04-03",
+           "author_id": 1
+       }
+   ]
+}
