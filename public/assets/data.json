@@ -3,13 +3,13 @@
         {
             "id": 1,
             "username": "admin",
-            "password": "$2y$10$FzkQYqsmcxp\/xOVmHyJPiestjehzyZ2P.Kyup2QL19amo9JKjolPK",
+            "password": "$2y$10$Ip5ojJyxp3g6FbGk7vVbS./i1GFjJ9gLYxt4mW18Bu06bxA6A6Pca",
             "role": "admin"
         },
         {
             "id": 2,
-            "username": "user1",
-            "password": "$2y$10$Msu3ElkF6mDCSo5kud3FA.Pn1MEeL4gv90RSgOsWXP4q4.DsWEDsK",
+            "username": "user",
+            "password": "$2y$10$Ip5ojJyxp3g6FbGk7vVbS./i1GFjJ9gLYxt4mW18Bu06bxA6A6Pca",
             "role": "guest"
         }
     ],
@@ -18,7 +18,25 @@
             "id": 1,
             "title": "First Article 1",
             "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum qui maiores natus illo nobis quam quae fugit, assumenda deserunt aperiam dignissimos error veritatis officia ipsum eveniet optio quis, libero quisquam?\r\n",
+            "date": "2025-04-10"
+        },
+        {
+            "id": 2,
+            "title": "Fourth Article",
+            "content": "lorem ipsum",
             "date": "2025-04-04"
+        },
+        {
+            "id": 3,
+            "title": "Fifth Article",
+            "content": "loram iasdfasfd",
+            "date": "2025-04-03"
+        },
+        {
+            "id": 4,
+            "title": "Sixth Article",
+            "content": "lorem ipsum noted ",
+            "date": "2025-04-01"
         }
     ]
 }

@@ -43,6 +43,55 @@ class AdminController
       unset($_SESSION['success']);
    }
 
+   public function createArticle()
+   {
+      if (!isset($_SESSION['user_id'])) {
+         redirect('/');
+      }
+
+      if ($_SESSION['role'] !== 'admin') {
+         redirect('/home');
+      }
+
+      echo $this->twig->render('create.twig', [
+         'loggedInUser' => $_SESSION['user_id'],
+         'success' => $_SESSION['success'] ?? null,
+      ]);
+
+      unset($_SESSION['success']);
+   }
+
+   public function storeArticle()
+   {
+      if (!isset($_SESSION['user_id'])) {
+         redirect('/');
+      }
+
+      if ($_SESSION['role'] !== 'admin') {
+         redirect('/home');
+      }
+
+      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+
+      $id = count($data['articles']) > 0 ? end($data['articles'])['id'] + 1 : 1;
+
+      $article = [
+         'id' => $id,
+         'title' => $_POST['title'],
+         'content' => $_POST['content'],
+         'date' => $_POST['date'] ?? date('Y-m-d'),
+      ];
+
+      $data['articles'][] = $article;
+
+      file_put_contents(__DIR__ . '/../../../../public/assets/data.json', json_encode($data, JSON_PRETTY_PRINT));
+
+      //redirect back to admin page with success message
+      $_SESSION['success'] = 'Article created successfully!';
+      header('Location: /admin');
+      exit;
+   }
+
    public function editArticle()
    {
       if (!isset($_SESSION['user_id'])) {
@@ -96,7 +145,7 @@ class AdminController
 
       $article['title'] = $_POST['title'];
       $article['content'] = $_POST['content'];
-      $article['date'] = date('Y-m-d');
+      $article['date'] = $_POST['date'] ?? date('Y-m-d');
 
       foreach ($data['articles'] as &$a) {
          if ($a['id'] == $article['id']) {

@@ -14,6 +14,8 @@ return function (Router $router) {
     $router->add('GET', '/article/{id}', [new HomeController($router), 'showArticle']);
 
     $router->add('GET', '/admin', [new AdminController($router), 'index']);
+    $router->add('GET', '/new', [new AdminController($router), 'createArticle']);
+    $router->add('POST', '/new', [new AdminController($router), 'storeArticle']);
     $router->add('GET', '/edit/{id}', [new AdminController($router), 'editArticle']);
     $router->add('POST', '/edit/{id}', [new AdminController($router), 'updateArticle']);
     $router->add('POST', '/delete/{id}', [new AdminController($router), 'destroyArticle']);
