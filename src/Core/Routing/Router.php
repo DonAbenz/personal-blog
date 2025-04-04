@@ -5,15 +5,16 @@ namespace App\Core\Routing;
 class Router
 {
    private array $routes = [];
+   protected Route $current;
 
-   public function addRoute(string $method, string $path, callable $handler): void
+   public function add(string $method, string $path, $handler): void
    {
       $this->routes[] = new Route($method, $path, $handler);
    }
 
-   public function getRoutes(): array
+   public function current(): ?Route
    {
-      return $this->routes;
+      return $this->current;
    }
 
    public function dispatch(): void
@@ -23,6 +24,7 @@ class Router
 
       foreach ($this->routes as $route) {
          if ($route->matches($requestMethod, $requestPath)) {
+            $this->current = $route;
             $route->dispatch();
             return;
          }

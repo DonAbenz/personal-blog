@@ -6,10 +6,12 @@ use App\Domain\Article\Http\HomeController;
 use App\Domain\User\Http\AuthController;
 
 return function (Router $router) {
-    $router->addRoute('GET', '/', [new AuthController(), 'index']);
-    $router->addRoute('POST', '/', [new AuthController(), 'login']);
-    $router->addRoute('POST', '/logout', [new AuthController(), 'logout']);
+    $router->add('GET', '/', [new AuthController(), 'index']);
+    $router->add('POST', '/', [new AuthController(), 'login']);
+    $router->add('POST', '/logout', [new AuthController(), 'logout']);
 
-    $router->addRoute('GET', '/home', [new HomeController(), 'index']);
-    $router->addRoute('GET', '/admin', [new AdminController(), 'index']);
+    $router->add('GET', '/home', [new HomeController($router), 'index']);
+    $router->add('GET', '/article/{id}', [new HomeController($router), 'showArticle']);
+
+    $router->add('GET', '/admin', [new AdminController($router), 'index']);
 };

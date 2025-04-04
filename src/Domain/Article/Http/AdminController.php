@@ -2,21 +2,26 @@
 
 namespace App\Domain\Article\Http;
 
+use App\Core\Routing\Router;
 use App\Core\TwigService;
 
 class AdminController
 {
+   private $twig;
+   
+   public function __construct(protected Router $router) {
+      $this->twig = TwigService::getTwig();
+   }
+   
    public function index()
    {
       if (!isset($_SESSION['user_id'])) {
          redirect('/');
       }
 
-      if ($_SESSION['role'] !== 'guest') {
+      if ($_SESSION['role'] !== 'admin') {
          redirect('/home');
       }
-
-      $twig = TwigService::getTwig();
 
       $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
 
@@ -28,7 +33,7 @@ class AdminController
          });
       }
 
-      echo $twig->render('admin.twig', [
+      echo $this->twig->render('admin.twig', [
          'loggedInUser' => $_SESSION['user_id'],
          'articles' => $articles,
       ]);

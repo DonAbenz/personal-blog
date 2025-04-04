@@ -12,7 +12,10 @@
 			{% for article in articles %}
 				<div class="flex justify-between items-center text-2xl gap-3">
 					<p>{{ article['title'] }}</p>
-					<p>{{ article['date'] | date("F d, Y") }}</p>
+					<div class="flex gap-3">
+						<a href="">Edit</a>
+						<a href="">Delete</a>
+					</div>
 				</div>
 			{% endfor %}
 		</div>

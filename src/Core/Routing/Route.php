@@ -31,7 +31,6 @@ class Route
       return call_user_func($this->handler);
    }
 
-
    public function matches(string $method, string $path): bool
    {
       if ($this->method !== $method) {
@@ -44,20 +43,26 @@ class Route
       }
 
       // Handle simple parameterized paths like 'product/{id}'
+      preg_match_all('#\{([^}]+)\}#', $this->path, $paramNames);
+      $paramNames = $paramNames[1];  // Extract the parameter names like ['id']
+
       $pattern = preg_replace('#{[^}]+}#', '([^/]+)', $this->path);
       $pattern = "#^" . str_replace('/', '\/', $pattern) . "$#";
 
       if (preg_match($pattern, $path, $matches)) {
          array_shift($matches); // Remove the full match
-         $this->parameters = $matches;
+
+         // Now map the matched values to the parameter names
+         $this->parameters = array_combine($paramNames, $matches);
+
          return true;
       }
 
       return false;
    }
 
-   public function getPath(): string
+   public function parameters(): array
    {
-      return $this->path;
+      return $this->parameters;
    }
 }

@@ -2,22 +2,29 @@
 
 namespace App\Domain\Article\Http;
 
+use App\Core\Routing\Router;
 use App\Core\TwigService;
 
 class HomeController
 {
+   private $twig;
+   private $parameters = [];
+
+   public function __construct(protected Router $router)
+   {
+      $this->twig = TwigService::getTwig();
+   }
+
    public function index()
    {
       if (!isset($_SESSION['user_id'])) {
          redirect('/');
       }
 
-      if ($_SESSION['role'] !== 'admin') {
+      if ($_SESSION['role'] !== 'guest') {
          redirect('/admin');
       }
-
-      $twig = TwigService::getTwig();
-
+      
       $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
 
       $articles = $data['articles'];
@@ -28,9 +35,31 @@ class HomeController
          });
       }
 
-      echo $twig->render('home.twig', [
+      echo $this->twig->render('home.twig', [
          'loggedInUser' => $_SESSION['user_id'],
          'articles' => $articles,
+      ]);
+   }
+
+   public function showArticle()
+   {
+      if (!isset($_SESSION['user_id'])) {
+         redirect('/');
+      }
+
+      if ($_SESSION['role'] !== 'guest') {
+         redirect('/admin');
+      }
+
+      $parameters = $this->router->current()->parameters();
+
+      $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
+      $article = array_filter($data['articles'], function ($article) use ($parameters) {
+         return $article['id'] == $parameters['id'];
+      });
+
+      echo $this->twig->render('article.twig', [
+         'article' => $article[0],
       ]);
    }
 }

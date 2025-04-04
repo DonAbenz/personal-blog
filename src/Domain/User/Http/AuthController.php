@@ -24,7 +24,6 @@ class AuthController
 
    public function login()
    {
-      // Read JSON file
       $data = json_decode(file_get_contents(__DIR__. '/../../../../public/assets/data.json'), true);
       $users = $data['users'];
 
@@ -44,8 +43,12 @@ class AuthController
       if ($user) {
          // User authenticated
          $_SESSION['user_id'] = $user['id'];
-         $_SESSION['role'] = $user['role'];  // You can use this to check the user's role later
+         $_SESSION['role'] = $user['role'];
 
+         if ($user['role'] === 'admin') {
+            redirect('/admin');
+            # code...
+         }
          redirect('/home');
       }
 
