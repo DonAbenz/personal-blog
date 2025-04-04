@@ -8,7 +8,6 @@ use App\Core\TwigService;
 class HomeController
 {
    private $twig;
-   private $parameters = [];
 
    public function __construct(protected Router $router)
    {
@@ -54,12 +53,16 @@ class HomeController
       $parameters = $this->router->current()->parameters();
 
       $data = json_decode(file_get_contents(__DIR__ . '/../../../../public/assets/data.json'), true);
-      $article = array_filter($data['articles'], function ($article) use ($parameters) {
+      
+      $articles = array_filter($data['articles'], function ($article) use ($parameters) {
          return $article['id'] == $parameters['id'];
       });
 
+      $articles = array_values($articles);
+
       echo $this->twig->render('article.twig', [
-         'article' => $article[0],
+         'loggedInUser' => $_SESSION['user_id'],
+         'article' => $articles[0],
       ]);
    }
 }
