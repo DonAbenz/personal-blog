@@ -19,12 +19,6 @@
             "title": "First Article 1",
             "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum qui maiores natus illo nobis quam quae fugit, assumenda deserunt aperiam dignissimos error veritatis officia ipsum eveniet optio quis, libero quisquam?\r\n",
             "date": "2025-04-04"
-        },
-        {
-            "id": 2,
-            "title": "Second Article",
-            "content": "This is the content of the second article.",
-            "date": "2025-04-03"
         }
     ]
 }

@@ -6,15 +6,26 @@
 {% block content %}
 	<div class="max-w-2xl mx-auto mt-10 bg-white shadow-md rounded-lg p-8">
 
-		<h1 class="text-4xl font-bold">Personal Blog</h1>
+		<div class="flex justify-between items-end">
+			<h1 class="text-4xl font-bold">Personal Blog</h1>
+			<a href="/new" class="text-2xl hover:text-green-500">+ Add</a>
+		</div>
+
+		{% if success %}
+			<div class="my-4 text-green-600 text-center">
+				{{ success }}
+			</div>
+		{% endif %}
 
 		<div class="mt-4">
 			{% for article in articles %}
 				<div class="flex justify-between items-center text-2xl gap-3">
 					<p>{{ article['title'] }}</p>
 					<div class="flex gap-3">
-						<a href="/edit/{{ article['id'] }}">Edit</a>
-						<a href="">Delete</a>
+						<a href="/edit/{{ article['id'] }}" class="hover:text-yellow-500">Edit</a>
+						<form action="/delete/{{ article['id'] }}" method="POST">
+							<button type="submit" class="hover:text-red-500">Delete</button>
+						</form>
 					</div>
 				</div>
 			{% endfor %}
