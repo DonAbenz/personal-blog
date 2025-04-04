@@ -1,0 +1,20 @@
+{% extends 'layout/base.twig' %}
+
+{% block title %}Personal Blog
+{% endblock %}
+
+{% block content %}
+	<div class="max-w-2xl mx-auto mt-10 bg-white shadow-md rounded-lg p-8">
+
+		<h1 class="text-4xl font-bold">Personal Blog</h1>
+
+		<div class="mt-4">
+			{% for article in articles %}
+				<div class="flex justify-between items-center text-2xl gap-3">
+					<p>{{ article['title'] }}</p>
+					<p>{{ article['date'] | date("F d, Y") }}</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

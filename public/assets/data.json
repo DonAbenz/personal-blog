@@ -18,15 +18,13 @@
            "id": 1,
            "title": "First Article",
            "content": "This is the content of the first article.",
-           "date": "2025-04-04",
-           "author_id": 1
+           "date": "2025-04-04"
        },
        {
            "id": 2,
            "title": "Second Article",
            "content": "This is the content of the second article.",
-           "date": "2025-04-03",
-           "author_id": 1
+           "date": "2025-04-03"
        }
    ]
 }

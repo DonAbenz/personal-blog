@@ -4,7 +4,7 @@ namespace App\Domain\Article\Http;
 
 use App\Core\TwigService;
 
-class HomeController
+class AdminController
 {
    public function index()
    {
@@ -12,8 +12,8 @@ class HomeController
          redirect('/');
       }
 
-      if ($_SESSION['role'] !== 'admin') {
-         redirect('/admin');
+      if ($_SESSION['role'] !== 'guest') {
+         redirect('/home');
       }
 
       $twig = TwigService::getTwig();
@@ -28,7 +28,7 @@ class HomeController
          });
       }
 
-      echo $twig->render('home.twig', [
+      echo $twig->render('admin.twig', [
          'loggedInUser' => $_SESSION['user_id'],
          'articles' => $articles,
       ]);
